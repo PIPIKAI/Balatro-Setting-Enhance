@@ -1,0 +1,6 @@
+{
+  "name": "SettingEnhance",
+  "version_number": "1.0.1",
+  "description": "设置增强，具体功能如下： 显示帧率 开关Shader模式（可减少GPU使用率，默认开启，会使画面变灰） 开关金手指模式(打开会减少游戏游玩体验)  调整字体大小 渲染比例 帧率限制",
+  "dependencies": []
+}

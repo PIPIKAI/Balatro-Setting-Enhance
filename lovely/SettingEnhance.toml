@@ -1,0 +1,63 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 88
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "local t = create_UIBox_generic_options({back_func = 'options',contents = {create_tabs("
+position = "before"
+payload = '''
+tabs[#tabs + 1] = {
+        label = "增强设置",
+        tab_definition_function = G.UIDEF.settings_tab,
+        tab_definition_function_args = 'NewBee'
+    }'''
+
+match_indent = true
+overwrite = false
+
+# show fps
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+
+pattern = "timer_checkpoint('canvas', 'draw')"
+
+position = "after"
+payload = '''if G.SETTINGS.Enhance.showFPS then
+    love.graphics.push()
+    love.graphics.setColor(0, 1, 1,1)
+    local fps = love.timer.getFPS( )
+    love.graphics.print(" FPS: "..fps, 10, 10)
+    love.graphics.pop()
+end
+'''
+
+match_indent = true
+overwrite = true
+
+
+# canvScale
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''love.graphics.setColor(G.C.WHITE)'''
+position = "before"
+payload = "love.graphics.scale(1/G.CANV_SCALE)"
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = "G.CANV_SCALE = 1"
+position = "after"
+payload = '''if G.SETTINGS.Enhance.canvScale ~= nil then
+    G.CANV_SCALE = G.SETTINGS.Enhance.canvScale
+end'''
+match_indent = true
+overwrite = false
